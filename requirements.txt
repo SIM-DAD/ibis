@@ -1,0 +1,7 @@
+faster-whisper
+watchdog
+pystray
+Pillow
+plyer
+customtkinter
+pyinstaller
