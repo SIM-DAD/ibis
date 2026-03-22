@@ -27,7 +27,7 @@ export const Intro: React.FC = () => {
   const sceneOpacity = interpolate(frame, [70, 90], [1, 0], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' });
 
   return (
-    <AbsoluteFill style={{ background: C.bg, opacity: sceneOpacity }}>
+    <AbsoluteFill style={{ background: '#F1F1F1', opacity: sceneOpacity }}>
       <div style={{
         display: 'flex',
         flexDirection: 'column',

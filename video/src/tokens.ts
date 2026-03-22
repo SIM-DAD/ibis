@@ -1,17 +1,24 @@
+import { loadFont } from '@remotion/google-fonts/PlusJakartaSans';
+
+const { fontFamily } = loadFont();
+export const FONT = fontFamily;
+
 // Brand tokens — mirrored from index.html CSS variables
 export const C = {
-  bg:       '#f1f1f1',
-  text:     '#262626',
-  red:      '#e63946',
-  redDark:  '#c1121f',
-  navy:     '#2c3e50',
+  bg:       '#FFFFFF',
+  surface:  '#F7F7F8',
+  text:     '#0F0F0F',
+  red:      '#2D6A8F', // renamed to accent blue; key kept for compat
+  redDark:  '#1A5070',
+  accent:   '#2D6A8F',
+  accentL:  '#E6F1F8',
+  navy:     '#1A3A50',
   white:    '#ffffff',
-  border:   '#e2e2e2',
-  muted:    '#777777',
+  border:   '#E4E4E7',
+  muted:    '#6B7280',
+  darkBg:   '#111111',
   green:    '#28c840',
 } as const;
-
-export const FONT = '"Inter", "Segoe UI", sans-serif';
 
 export const FPS = 30;
 export const TOTAL_FRAMES = 450; // 15 s

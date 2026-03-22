@@ -115,7 +115,7 @@ const FileItem: React.FC<{
         width: 34,
         height: 34,
         borderRadius: 6,
-        background: 'linear-gradient(135deg, #e63946 0%, #c1121f 100%)',
+        background: 'linear-gradient(135deg, #2D6A8F 0%, #1A5070 100%)',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
