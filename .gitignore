@@ -29,11 +29,15 @@ installer/Output/
 # Test output
 test_output/
 
-# Video sub-project (Node.js)
+# Video sub-project (Remotion / Node.js)
 video/node_modules/
 video/out/
+video/frames/
 video/.next/
 video/dist/
+*.mp4
+*.mov
+*.webm
 
 # Secrets / local config
 .env
