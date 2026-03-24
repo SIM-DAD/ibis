@@ -44,6 +44,11 @@ hiddenimports = [
     "importlib.metadata",
     "email",
     "email.message",
+    "license",
+    "license_window",
+    "urllib.request",
+    "urllib.parse",
+    "urllib.error",
 ]
 
 # ── Analysis ──────────────────────────────────────────────────────────────────

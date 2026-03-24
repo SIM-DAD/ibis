@@ -4,12 +4,15 @@ Wires config, watcher, notifier, settings, and tray together.
 """
 import logging
 import sys
+import threading
 from logging.handlers import RotatingFileHandler
 from pathlib import Path
 
 import config as cfg
+import license as lic
 import notifier
 import transcriber
+from license_window import LicenseWindow
 from settings import SettingsWindow
 from tray import TrayApp
 from watcher import Watcher
@@ -55,6 +58,30 @@ class IbisApp:
     def run(self):
         logger.info("Ibis starting")
 
+        # ── License check ────────────────────────────────────────────────
+        valid, reason = lic.check()
+        if not valid:
+            logger.info("License check failed (%s) — showing activation window", reason)
+            activated = threading.Event()
+            quit_requested = threading.Event()
+
+            def _on_activated():
+                activated.set()
+
+            def _on_quit():
+                quit_requested.set()
+
+            LicenseWindow(
+                on_activated=_on_activated,
+                on_quit=_on_quit,
+                reason=reason,
+            ).show()
+
+            if quit_requested.is_set():
+                logger.info("User quit at license window")
+                sys.exit(0)
+
+        # ── Normal startup ───────────────────────────────────────────────
         self._tray = TrayApp(
             config=self._config,
             on_pause_resume=self._handle_pause_resume,
