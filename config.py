@@ -19,6 +19,7 @@ DEFAULT_CONFIG = {
     "language":           "auto",
     "output_format":      "txt",
     "launch_at_startup":  False,
+    "removable_device":   False,
 }
 
 
@@ -56,8 +57,15 @@ def is_first_run() -> bool:
 
 
 def ensure_folders(config: dict) -> None:
-    """Create watch, completed, and transcripts folders if they don't exist."""
+    """Create completed and transcripts folders if they don't exist.
+
+    The watch folder is skipped when removable_device is True — it lives on
+    the device and must not be created as a local directory in its absence.
+    """
+    removable = config.get("removable_device", False)
     for key in ("watch_folder", "completed_folder", "transcripts_folder"):
+        if key == "watch_folder" and removable:
+            continue
         folder = config.get(key, "")
         if folder:
             try:

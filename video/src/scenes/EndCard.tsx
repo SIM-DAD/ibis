@@ -113,7 +113,7 @@ export const EndCard: React.FC = () => {
         letterSpacing: '0.02em',
         marginBottom: 28,
       }}>
-        Join the waitlist — Windows 10 &amp; 11
+        Personal $24 &nbsp;·&nbsp; Pro $49 &nbsp;·&nbsp; Windows 10 &amp; 11
       </div>
 
       {/* Feature badges */}

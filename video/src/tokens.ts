@@ -21,22 +21,44 @@ export const C = {
 } as const;
 
 export const FPS = 30;
-export const TOTAL_FRAMES = 450; // 15 s
+export const TOTAL_FRAMES = 450; // 15s — IbisDemo homepage loop
 
-// Sequence timing (absolute frames)
+// ── IbisDemo sequence (15s homepage loop) ────────────────────────────────────
 export const SEQ = {
   intro:      { from: 0,   duration: 60  }, // 0–2 s
   desktop:    { from: 60,  duration: 330 }, // 2–13 s
   endCard:    { from: 390, duration: 60  }, // 13–15 s
 } as const;
 
-// Within DesktopScene (frame = local frame, 0-based)
+// ── IbisPitchV2 sequence (70s = 2100 frames) ─────────────────────────────────
+// Scene           From    Duration   Seconds
+// ────────────────────────────────────────────
+// ProblemFrame       0       210        7s
+// Intro            210        90        3s
+// SetupScene       300       330       11s  real app screenshot
+// WorkflowShowcase 630       510       17s  watch folder → transcript
+// OutputScene     1140       270        9s  real transcript content
+// Differentiators 1410       270        9s
+// PricingScene    1680       180        6s
+// EndCard         1860       240        8s
+export const P = {
+  problem:   { from: 0,    duration: 210 },
+  intro:     { from: 210,  duration: 90  },
+  setup:     { from: 300,  duration: 330 },
+  workflow:  { from: 630,  duration: 510 },
+  output:    { from: 1140, duration: 270 },
+  diff:      { from: 1410, duration: 270 },
+  pricing:   { from: 1680, duration: 180 },
+  endCard:   { from: 1860, duration: 240 },
+} as const;
+export const PITCH_V2_TOTAL = 2100; // 70s
+
+// ── Within DesktopScene (IbisDemo only — frame = local 0-based) ──────────────
 export const D = {
   bgFadeIn:       [0,   15],   // desktop bg appears
   windowAppear:   [15,  40],   // explorer window scales in
   fileDropStart:  60,          // interview.mp3 starts falling
   fileDropLand:   100,         // file settled
-  // 100-180: Ibis processes silently
   folderSwitch:   180,         // explorer switches to Transcripts folder
   txtFileDrop:    210,         // .txt file slides in
   previewIn:      270,         // transcript preview text fades in

@@ -69,3 +69,4 @@ launch_log.txt
 *.tmp
 *.bak
 *.swp
+dev_launch.py

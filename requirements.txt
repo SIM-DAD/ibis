@@ -4,4 +4,5 @@ pystray
 Pillow
 plyer
 customtkinter
+pywin32
 pyinstaller

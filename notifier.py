@@ -47,3 +47,17 @@ def model_load_failed(reason: str) -> None:
         title="Ibis — Model failed to load",
         message=reason,
     )
+
+
+def device_connected(folder_path: Path) -> None:
+    _notify(
+        title="Ibis — Device connected",
+        message=f"Now watching: {folder_path.name}",
+    )
+
+
+def device_disconnected(folder_path: Path) -> None:
+    _notify(
+        title="Ibis — Device removed",
+        message=f"Waiting for device: {folder_path.name}",
+    )

@@ -54,6 +54,7 @@ class IbisApp:
         cfg.ensure_folders(self._config)
         self._watcher: Watcher | None = None
         self._tray: TrayApp | None = None
+        self._settings_win: SettingsWindow | None = None
 
     def run(self):
         logger.info("Ibis starting")
@@ -113,6 +114,8 @@ class IbisApp:
             on_error=self._on_transcription_error,
             on_folder_missing=self._on_folder_missing,
             on_start=self._on_transcription_start,
+            on_device_connected=self._on_device_connected,
+            on_device_disconnected=self._on_device_disconnected,
         )
         self._watcher.start()
 
@@ -132,16 +135,22 @@ class IbisApp:
             logger.info("Watcher resumed")
 
     def _handle_open_settings(self):
-        win = SettingsWindow(self._config, on_save=self._on_settings_saved)
-        win.show()
+        # Reuse the existing window if it's still open — creates a new one only
+        # when the previous instance has been destroyed.  This prevents the crash
+        # caused by creating a second ctk.CTk() root while the first is alive.
+        if self._settings_win is not None and self._settings_win.is_open():
+            self._settings_win.focus()
+            return
+        self._settings_win = SettingsWindow(self._config, on_save=self._on_settings_saved)
+        self._settings_win.show()
 
     def _open_settings_and_start(self):
         def after_save(new_config):
             self._config = new_config
             self._start_watcher()
 
-        win = SettingsWindow(self._config, on_save=after_save)
-        win.show()
+        self._settings_win = SettingsWindow(self._config, on_save=after_save)
+        self._settings_win.show()
 
     def _handle_quit(self):
         logger.info("Ibis shutting down")
@@ -175,6 +184,12 @@ class IbisApp:
 
     def _on_folder_missing(self, folder_path: Path):
         notifier.watch_folder_missing(folder_path)
+
+    def _on_device_connected(self, folder_path: Path):
+        notifier.device_connected(folder_path)
+
+    def _on_device_disconnected(self, folder_path: Path):
+        notifier.device_disconnected(folder_path)
 
 
 # ---------------------------------------------------------------------------

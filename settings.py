@@ -137,10 +137,18 @@ class SettingsWindow:
         self._root: ctk.CTk | None = None
         self._img_refs = []
 
-    def show(self):
+    def is_open(self) -> bool:
+        """True if the window has been built and not yet destroyed."""
+        return self._root is not None and self._root.winfo_exists()
+
+    def focus(self):
+        """Bring the existing window to the foreground."""
         if self._root and self._root.winfo_exists():
+            self._root.deiconify()
             self._root.lift()
-            return
+            self._root.focus_force()
+
+    def show(self):
         self._build()
         self._root.mainloop()
 
@@ -197,6 +205,35 @@ class SettingsWindow:
         self._watch_var = ctk.StringVar(value=self._config["watch_folder"])
         _field_label(folder_card, "Watch Folder")
         self._folder_row(folder_card, self._watch_var)
+
+        removable_row = ctk.CTkFrame(folder_card, fg_color="transparent", corner_radius=0)
+        removable_row.pack(fill="x", pady=(4, 8))
+
+        label_col = ctk.CTkFrame(removable_row, fg_color="transparent", corner_radius=0)
+        label_col.pack(side="left", fill="x", expand=True)
+
+        ctk.CTkLabel(
+            label_col, text="Removable device",
+            font=("Inter", 12), text_color=C_TEXT, anchor="w",
+        ).pack(anchor="w")
+
+        ctk.CTkLabel(
+            label_col,
+            text="Watch folder is on a USB drive or digital recorder",
+            font=("Inter", 11), text_color=C_MUTED, anchor="w",
+        ).pack(anchor="w", pady=(1, 0))
+
+        self._removable_var = ctk.BooleanVar(value=self._config.get("removable_device", False))
+        ctk.CTkSwitch(
+            removable_row, text="",
+            variable=self._removable_var,
+            onvalue=True, offvalue=False,
+            progress_color=C_RED,
+            button_color=C_TEXT,
+            button_hover_color="#cccccc",
+            fg_color=C_BORDER,
+            width=52, height=26,
+        ).pack(side="right", padx=(12, 0))
 
         self._completed_var = ctk.StringVar(value=self._config["completed_folder"])
         _field_label(folder_card, "Completed Folder")
@@ -305,6 +342,11 @@ class SettingsWindow:
         y = (root.winfo_screenheight() - h) // 2
         root.geometry(f"{w}x{h}+{x}+{y}")
 
+        # Pulse topmost briefly so the window steals focus when opened from the
+        # system tray (tray callbacks don't naturally raise windows on Windows).
+        root.wm_attributes("-topmost", True)
+        root.after(200, lambda: root.wm_attributes("-topmost", False))
+
     # ------------------------------------------------------------------
 
     def _folder_row(self, parent, var: ctk.StringVar):
@@ -357,6 +399,7 @@ class SettingsWindow:
             "language":           lang_value,
             "output_format":      format_value,
             "launch_at_startup":  self._startup_var.get(),
+            "removable_device":   self._removable_var.get(),
         }
 
         cfg.ensure_folders(new_config)

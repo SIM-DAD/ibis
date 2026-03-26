@@ -62,10 +62,10 @@ export const Differentiators: React.FC = () => {
       <div style={{ width: 680, display: 'flex', flexDirection: 'column', gap: 36 }}>
         {/* Section label */}
         <div style={{
-          fontSize: 11,
-          fontWeight: 700,
+          fontSize: 22,
+          fontWeight: 800,
           textTransform: 'uppercase',
-          letterSpacing: '0.1em',
+          letterSpacing: '0.10em',
           color: C.red,
           opacity: labelOpacity,
         }}>
