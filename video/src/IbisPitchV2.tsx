@@ -39,9 +39,9 @@ import { EndCard }         from './scenes/EndCard';
 //   Transcripts Folder    ≈ 0.44
 //   Model dropdown        ≈ 0.57
 const SETUP_ANNOTATIONS = [
-  { label: 'Watch folder',                       targetX: 0.97, targetY: 0.20, frameIn: 40  },
-  { label: 'Transcripts output folder',          targetX: 0.97, targetY: 0.39, frameIn: 75  },
-  { label: 'Whisper Large-v3-Turbo — on-device', targetX: 0.97, targetY: 0.51, frameIn: 110 },
+  { label: 'Watch folder',                       targetX: 0.7, targetY: 0.245, frameIn: 40  },
+  { label: 'Transcripts output folder',          targetX: 0.7, targetY: 0.445, frameIn: 75  },
+  { label: 'Whisper Large-v3-Turbo — on-device', targetX: 0.8, targetY: 0.6, frameIn: 110 },
 ];
 
 // screenshot-transcript-content.png: 561×355 — left-aligned, labels RIGHT
