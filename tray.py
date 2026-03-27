@@ -96,6 +96,8 @@ class TrayApp:
             pystray.MenuItem(pause_label, self._handle_pause_resume),
             pystray.MenuItem("Open Transcripts Folder", self._handle_open_transcripts),
             pystray.Menu.SEPARATOR,
+            pystray.MenuItem("License Agreement", self._handle_eula),
+            pystray.Menu.SEPARATOR,
             pystray.MenuItem("Quit", self._handle_quit),
         )
 
@@ -125,6 +127,10 @@ class TrayApp:
             os.startfile(folder)
         else:
             logger.warning("Transcripts folder not set or missing: %s", folder)
+
+    def _handle_eula(self, icon, item):
+        import webbrowser
+        webbrowser.open("https://useibis.app/eula.html")
 
     def _handle_quit(self, icon, item):
         self._on_quit()
